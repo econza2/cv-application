@@ -193,6 +193,8 @@ function MainCurriculumVitaeDisplay({ children }) {
     email: "",
   });
 
+  const [informationEducation, setInformationEducation] = useState([]);
+
   function GeneralInformation() {
     const [generalInformationTwo, setGeneralInformationTwo] = useState({
       id: crypto.randomUUID(),
@@ -274,7 +276,7 @@ function MainCurriculumVitaeDisplay({ children }) {
   //General Information function ends here
 
   function GeneralInformationRender() {
-    let reenterInformation = function () {
+    let reenderInformation = function () {
       setSubmitGeneralInformation(false);
       //setInfoSubmitted(false);
     };
@@ -291,7 +293,154 @@ function MainCurriculumVitaeDisplay({ children }) {
           "Awaiting Upload"
         )}
 
-        <button onClick={reenterInformation}>Reenter Information</button>
+        <button onClick={reenderInformation}>Reenter Information</button>
+      </>
+    );
+  }
+
+  function SchoolInformationEdit() {
+    const [schoolInfoArray, setSchoolInfoArray] = useState([]);
+    const [educationInfoArray, setEducationInfoArray] = useState([]);
+
+    let tempInfoArray = [];
+    let tempEducationArray = [];
+
+    let submitNumber = function () {
+      let numberOfSchools = parseInt(
+        prompt("Enter Number Of Schools Attended")
+      );
+
+      for (let i = 0; i < numberOfSchools; i++) {
+        tempInfoArray.push({
+          id: crypto.randomUUID(),
+          sn: "School Name",
+          tos: "Title Of Study",
+          dos: "Duration Of Study In Years",
+          df: "Date Finished",
+        });
+
+        tempEducationArray.push({
+          id: "",
+          sn: "",
+          tos: "",
+          dos: "",
+          df: "",
+        });
+      }
+
+      setSchoolInfoArray(tempInfoArray);
+      setEducationInfoArray(tempEducationArray);
+    };
+
+    let handleSchoolNameChange = function (e, index) {
+      setEducationInfoArray([
+        ...educationInfoArray,
+        (educationInfoArray[index]["sn"] = e.target.value),
+      ]);
+    };
+
+    let handleTitleOfStudyChange = function (e, index) {
+      setEducationInfoArray([
+        ...educationInfoArray,
+        (educationInfoArray[index]["tos"] = e.target.value),
+      ]);
+    };
+
+    let handleDurationOfStudyChange = function (e, index) {
+      setEducationInfoArray([
+        ...educationInfoArray,
+        (educationInfoArray[index]["dos"] = e.target.value),
+      ]);
+    };
+
+    let handleDateFinishedChange = function (e, index) {
+      setEducationInfoArray([
+        ...educationInfoArray,
+        (educationInfoArray[index]["df"] = e.target.value),
+      ]);
+    };
+
+    let submitEducationInfo = function () {
+      let filteredArray = educationInfoArray.filter((info) => {
+        return typeof info === "object";
+      });
+
+      setInformationEducation(filteredArray);
+
+      console.log(filteredArray);
+    };
+
+    return (
+      <>
+        <h2>{"Educational Experience version Two"}</h2>
+        <button onClick={() => submitNumber()}>
+          How Many Schools Did You Attend?
+        </button>
+        {schoolInfoArray.length > 0
+          ? schoolInfoArray.map((info, index) => {
+              return (
+                <div className="schools-attended" key={info.id}>
+                  <label>
+                    {info.sn}
+                    <input
+                      type="text"
+                      value={educationInfoArray[index]["sn"]}
+                      onChange={(event) => handleSchoolNameChange(event, index)}
+                    />
+                  </label>
+                  <label>
+                    {info.tos}
+                    <input
+                      type="text"
+                      value={educationInfoArray[index]["tos"]}
+                      onChange={(event) =>
+                        handleTitleOfStudyChange(event, index)
+                      }
+                    />
+                  </label>
+                  <label>
+                    {info.dos}
+                    <input
+                      type="number"
+                      value={educationInfoArray[index]["dos"]}
+                      onChange={(event) =>
+                        handleDurationOfStudyChange(event, index)
+                      }
+                    />
+                  </label>
+                  <label>
+                    {info.df}
+                    <input
+                      type="date"
+                      value={educationInfoArray[index]["df"]}
+                      onChange={(event) =>
+                        handleDateFinishedChange(event, index)
+                      }
+                    />
+                  </label>
+                </div>
+              );
+            })
+          : "Nothing to Display Yet"}
+        <button onClick={() => submitEducationInfo()}>
+          Submit Education Information
+        </button>
+      </>
+    );
+  }
+
+  function SchoolInformationRender() {
+    return (
+      <>
+        <h1>School Information</h1>
+        {informationEducation.length > 0
+          ? informationEducation.map((info, index) => (
+              <div key={index}>
+                School Name: {info.sn} Title Of Study: {info.tos} Duration Of
+                Study: {info.dos} Date Finished: {info.df}
+              </div>
+            ))
+          : "No School Information To Display Yet"}
       </>
     );
   }
@@ -301,6 +450,8 @@ function MainCurriculumVitaeDisplay({ children }) {
       {children}
       <GeneralInformation />
       <GeneralInformationRender />
+      <SchoolInformationEdit />
+      <SchoolInformationRender />
     </>
   );
 }
@@ -324,14 +475,12 @@ export default function CV() {
   return (
     <>
       <CurriculumVitae>
-        <GeneralInformation />
+        {/* <GeneralInformation />
         <SchoolInformation />
         <PracticalExperience />
-        <SchoolInformationEdit />
+        <SchoolInformationEdit /> */}
       </CurriculumVitae>
-      <MainCurriculumVitaeDisplay>
-        {/* <GeneralInformationRender /> */}
-      </MainCurriculumVitaeDisplay>
+      <MainCurriculumVitaeDisplay></MainCurriculumVitaeDisplay>
     </>
   );
 }
