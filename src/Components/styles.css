@@ -1,3 +1,83 @@
+.data-collect {
+  background-color: hotpink;
+  padding: 10px;
+}
+
+.entry-submit-button {
+  margin: 20px;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.inside-number-input {
+  margin: 10px;
+}
+
+.number-button {
+  font-size: 15px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
 .schools-attended {
-    display-grid
+  padding: 10px;
+}
+
+.red-div {
+  padding: 10px;
+  color: red;
+}
+
+.data-display {
+  background-color: rebeccapurple;
+  padding: 10px;
+}
+
+.general-info-details {
+  display: flex;
+  gap: 15px;
+  justify-content: space-around;
+  align-items: center;
+  padding: 15px;
+  font-size: 20px;
+  color: rgb(0, 255, 242);
+}
+
+.school-details-titles {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 1fr;
+  color: chocolate;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.no-info-display {
+  color: rgb(0, 255, 242);
+  margin: 10px;
+}
+
+.school-info-details {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 15px;
+  font-size: 16px;
+  color: rgb(0, 255, 242);
+}
+
+.experience-details-titles {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: 1fr;
+  color: chocolate;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.experience-info-details {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  padding: 15px;
+  font-size: 16px;
+  color: rgb(0, 255, 242);
 }

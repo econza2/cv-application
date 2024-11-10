@@ -1,8 +1,6 @@
 import { useState } from "react";
-import { Fragment } from "react";
 
-function MainCurriculumVitaeDisplay({ children }) {
-  //let generalInformationArray = [];
+function MainCurriculumVitaeDisplay() {
   const [submitGeneralInformation, setSubmitGeneralInformation] =
     useState(false);
 
@@ -16,6 +14,14 @@ function MainCurriculumVitaeDisplay({ children }) {
   const [informationEducation, setInformationEducation] = useState([]);
 
   const [informationExperience, setInformationExperience] = useState([]);
+
+  const [showSchoolInformationEdit, setShowSchoolInformationEdit] =
+    useState(true);
+
+  const [showPracticalExperienceEdit, setShowPracticalExperienceEdit] =
+    useState(true);
+
+  const [showGeneralInformation, setShowGeneralInformation] = useState(true);
 
   function GeneralInformation() {
     const [generalInformationTwo, setGeneralInformationTwo] = useState({
@@ -51,18 +57,18 @@ function MainCurriculumVitaeDisplay({ children }) {
         ...generalInformationTwo,
         id: crypto.randomUUID(),
       });
-      //generalInformationArray.push(generalInformation);
+
       setSubmitGeneralInformation(true);
       setGeneralInformation(generalInformationTwo);
-      //setInfoSubmitted(true);
+
+      setShowGeneralInformation(false);
     };
 
-    //console.log(generalInformationArray);
     return (
-      <>
-        <h2>General Information Two</h2>
+      <div className="data-collect">
+        <h2>General Information</h2>
         <label>
-          Name
+          Name:{" "}
           <input
             type="text"
             value={generalInformationTwo.name}
@@ -70,7 +76,7 @@ function MainCurriculumVitaeDisplay({ children }) {
           />
         </label>
         <label>
-          Phone Number
+          Phone Number:{" "}
           <input
             type="number"
             value={generalInformationTwo.phoneNumber}
@@ -78,49 +84,54 @@ function MainCurriculumVitaeDisplay({ children }) {
           />
         </label>
         <label>
-          Email
+          Email:{" "}
           <input
             type="email"
             value={generalInformationTwo.email}
             onChange={handleEmail}
           />
         </label>
-        <button
-          onClick={addGeneralInformationDetails}
-          disabled={submitGeneralInformation}
-        >
-          Add Info
-        </button>
-      </>
+        <div>
+          <button
+            className="entry-submit-button"
+            onClick={addGeneralInformationDetails}
+            disabled={submitGeneralInformation}
+          >
+            Add Info
+          </button>
+        </div>
+      </div>
     );
   }
 
-  //Ends here
-
   function GeneralInformationRender() {
-    let reenderInformation = function () {
+    let reenterInformation = function () {
       setSubmitGeneralInformation(false);
-      //setInfoSubmitted(false);
+
+      setShowGeneralInformation(true);
     };
 
     return (
-      <>
+      <div className="data-display">
         <h1>General Information</h1>
         {submitGeneralInformation ? (
-          <p key={generalInformation.id}>
-            Name: {generalInformation.name} Phone Number:{" "}
-            {generalInformation.phoneNumber} Email: {generalInformation.email}
-          </p>
+          <div className="general-info-details" key={generalInformation.id}>
+            <div>Name: {generalInformation.name}</div>
+            <div>Phone Number: {generalInformation.phoneNumber}</div>
+            <div>Email: {generalInformation.email}</div>
+          </div>
         ) : (
           "Awaiting Upload"
         )}
 
-        <button onClick={reenderInformation}>Reenter Information</button>
-      </>
+        <div>
+          <button className="entry-submit-button" onClick={reenterInformation}>
+            Reenter Information
+          </button>
+        </div>
+      </div>
     );
   }
-
-  // Ends Here
 
   function SchoolInformationEdit() {
     const [schoolInfoArray, setSchoolInfoArray] = useState([]);
@@ -165,8 +176,7 @@ function MainCurriculumVitaeDisplay({ children }) {
       });
 
       setInformationEducation(filteredArray);
-
-      //console.log(filteredArray);
+      setShowSchoolInformationEdit(false);
     };
 
     let schoolsAttendedChange = function (e) {
@@ -175,8 +185,6 @@ function MainCurriculumVitaeDisplay({ children }) {
     };
 
     let submitSchoolsAtttendedNumber = function () {
-      console.log(schoolsAttended);
-
       let schoolsNo = schoolsAttended;
 
       for (let i = 0; i < schoolsNo; i++) {
@@ -207,22 +215,28 @@ function MainCurriculumVitaeDisplay({ children }) {
     };
 
     return (
-      <>
-        <h2>{"Educational Experience version Two"}</h2>
+      <div className="data-collect">
+        <h2>{"Educational Experience"}</h2>
 
         {showSchools ? (
-          <button onClick={reEnterSchools}>ReEnter School Number?</button>
+          <button className="number-button" onClick={reEnterSchools}>
+            ReEnter School Number?
+          </button>
         ) : (
           <>
             <label>
               How Many Schools Did You Attend?
               <input
+                className="inside-number-input"
                 type="number"
                 value={schoolsAttended}
                 onChange={schoolsAttendedChange}
               />
             </label>
-            <button onClick={submitSchoolsAtttendedNumber}>
+            <button
+              className="number-button"
+              onClick={submitSchoolsAtttendedNumber}
+            >
               Submit Schools Attended
             </button>
           </>
@@ -275,39 +289,63 @@ function MainCurriculumVitaeDisplay({ children }) {
               );
             })
           ) : (
-            <div>You Have Selected Zero Schools</div>
+            <div className="red-div">You Have Selected Zero Schools</div>
           )
         ) : (
-          <div>Enter Number Of Schools</div>
+          <div className="red-div">Enter Number Of Schools</div>
         )}
         <div>
-          <button onClick={() => submitEducationInfo()}>
+          <button
+            className="entry-submit-button"
+            onClick={() => submitEducationInfo()}
+          >
             Submit Education Information
           </button>
         </div>
-      </>
+      </div>
     );
   }
-
-  // Ends Here
 
   function SchoolInformationRender() {
+    let reenterSchoolInformation = function () {
+      setShowSchoolInformationEdit(true);
+    };
+
     return (
-      <>
+      <div className="data-display">
         <h1>School Information</h1>
-        {informationEducation.length > 0
-          ? informationEducation.map((info, index) => (
-              <div key={index}>
-                School Name: {info.sn} Title Of Study: {info.tos} Duration Of
-                Study: {info.dos} Date Finished: {info.df}
-              </div>
-            ))
-          : "No School Information To Display Yet"}
-      </>
+        <div className="school-details-titles">
+          <div>School Name</div>
+          <div>Title Of Study</div>
+          <div>Duration Of Study</div>
+          <div>Date Finished</div>
+        </div>
+        {informationEducation.length > 0 ? (
+          informationEducation.map((info, index) => (
+            <div className="school-info-details" key={index}>
+              <div>{info.sn}</div>
+              <div>{info.tos}</div>
+              <div>{info.dos}</div>
+              <div>{info.df}</div>
+            </div>
+          ))
+        ) : (
+          <div className="no-info-display">
+            No School Information To Display Yet
+          </div>
+        )}
+
+        <div>
+          <button
+            className="entry-submit-button"
+            onClick={reenterSchoolInformation}
+          >
+            Reenter Information
+          </button>
+        </div>
+      </div>
     );
   }
-
-  // Ends Here
 
   function PracticalExperienceEdit() {
     const [companyInfoArray, setCompanyInfoArray] = useState([]);
@@ -359,8 +397,7 @@ function MainCurriculumVitaeDisplay({ children }) {
       });
 
       setInformationExperience(filteredArray);
-
-      //console.log(filteredArray);
+      setShowPracticalExperienceEdit(false);
     };
 
     let companiesNumberChange = function (e) {
@@ -401,21 +438,25 @@ function MainCurriculumVitaeDisplay({ children }) {
     };
 
     return (
-      <>
-        <h2>{"Practical Experience Version Two"}</h2>
+      <div className="data-collect">
+        <h2>{"Practical Experience"}</h2>
 
         {showExperience ? (
-          <button onClick={reEnterCompanies}>
+          <button className="number-button" onClick={reEnterCompanies}>
             ReEnter Number Of Companies Worked For?
           </button>
         ) : (
           <>
             <label>
               How Many Comapnies Have You Worked For?
-              <input value={companiesNumber} onChange={companiesNumberChange} />
+              <input
+                className="inside-number-input"
+                value={companiesNumber}
+                onChange={companiesNumberChange}
+              />
             </label>
 
-            <button onClick={submitCompaniesNumber}>
+            <button className="number-button" onClick={submitCompaniesNumber}>
               Submit Number Of Companies Worked For
             </button>
           </>
@@ -425,7 +466,7 @@ function MainCurriculumVitaeDisplay({ children }) {
           companyInfoArray.length > 0 ? (
             companyInfoArray.map((info, index) => {
               return (
-                <div key={info.id}>
+                <div className="schools-attended" key={info.id}>
                   <label>
                     {info.cn}
                     <input
@@ -479,50 +520,89 @@ function MainCurriculumVitaeDisplay({ children }) {
               );
             })
           ) : (
-            <div>Nothing To Display Yet</div>
+            <div className="red-div">You Have Entered Zero Companies</div>
           )
         ) : (
-          <div>Enter Number Of Companies You Have Worked For</div>
+          <div className="red-div">
+            Enter Number Of Companies You Have Worked For
+          </div>
         )}
         <div>
-          <button onClick={submitExperienceInformation}>
+          <button
+            className="entry-submit-button"
+            onClick={submitExperienceInformation}
+          >
             Submit Experience Information
           </button>
         </div>
-      </>
+      </div>
     );
   }
 
-  //Ends Here
-
   function PracticalExperienceRender() {
+    let reenterExperienceInformation = function () {
+      setShowPracticalExperienceEdit(true);
+    };
+
     return (
-      <>
+      <div className="data-display">
         <h1>Experience Information</h1>
-        {informationExperience.length > 0
-          ? informationExperience.map((info, index) => {
-              return (
-                <div key={index}>
-                  Company Name: {info.cn} Main Responsibilities: {info.mr}{" "}
-                  Position Title: {info.pt} Worked Since: {info.ws} Worked
-                  Until: {info.wu}
-                </div>
-              );
-            })
-          : "No Experience Information To Display Yet"}
-      </>
+        <div className="experience-details-titles">
+          <div>Company Name</div>
+          <div>Main Responsibilities</div>
+          <div>Position Title</div>
+          <div>Worked Since</div>
+          <div>Worked Until</div>
+        </div>
+        {informationExperience.length > 0 ? (
+          informationExperience.map((info, index) => {
+            return (
+              <div className="experience-info-details" key={index}>
+                <div>{info.cn}</div>
+                <div>{info.mr}</div>
+                <div>{info.pt}</div>
+                <div>{info.ws}</div>
+                <div>{info.wu}</div>
+              </div>
+            );
+          })
+        ) : (
+          <div className="no-info-display">
+            No Experience Information To Display Yet
+          </div>
+        )}
+
+        <div>
+          <button
+            className="entry-submit-button"
+            onClick={reenterExperienceInformation}
+          >
+            Reenter Information
+          </button>
+        </div>
+      </div>
     );
   }
 
   return (
     <>
-      {children}
-      <GeneralInformation />
-      <SchoolInformationEdit />
-      <PracticalExperienceEdit />
-      <GeneralInformationRender />
-      <SchoolInformationRender />
-      <PracticalExperienceRender />
+      {showGeneralInformation ? (
+        <GeneralInformation />
+      ) : (
+        <GeneralInformationRender />
+      )}
+
+      {showSchoolInformationEdit ? (
+        <SchoolInformationEdit />
+      ) : (
+        <SchoolInformationRender />
+      )}
+
+      {showPracticalExperienceEdit ? (
+        <PracticalExperienceEdit />
+      ) : (
+        <PracticalExperienceRender />
+      )}
     </>
   );
 }
