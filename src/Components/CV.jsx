@@ -1,186 +1,6 @@
 import { useState } from "react";
 import { Fragment } from "react";
 
-//let generalInformationArray = [];
-let schoolInformationArray = [];
-let practicalExperienceArray = [];
-
-function GeneralInformation() {
-  const [generalInformation, setGeneralInformation] = useState({
-    id: crypto.randomUUID(),
-    name: "",
-    phoneNumber: "",
-    email: "",
-  });
-
-  const [disableButton, setDisableButton] = useState(false);
-
-  let handleName = function (e) {
-    setGeneralInformation({ ...generalInformation, name: e.target.value });
-  };
-
-  let handlePhoneNumber = function (e) {
-    setGeneralInformation({
-      ...generalInformation,
-      phoneNumber: e.target.value,
-    });
-  };
-
-  let handleEmail = function (e) {
-    setGeneralInformation({ ...generalInformation, email: e.target.value });
-  };
-
-  let addGeneralInformationDetails = function () {
-    setGeneralInformation({ ...generalInformation, id: crypto.randomUUID() });
-    //generalInformationArray.push(generalInformation);
-    setDisableButton(true);
-  };
-
-  //console.log(generalInformationArray);
-  return (
-    <>
-      <h2>General Information</h2>
-      <label>
-        Name
-        <input
-          type="text"
-          value={generalInformation.name}
-          onChange={handleName}
-        />
-      </label>
-      <label>
-        Phone Number
-        <input
-          type="number"
-          value={generalInformation.phoneNumber}
-          onChange={handlePhoneNumber}
-        />
-      </label>
-      <label>
-        Email
-        <input
-          type="email"
-          value={generalInformation.email}
-          onChange={handleEmail}
-        />
-      </label>
-      <button onClick={addGeneralInformationDetails} disabled={disableButton}>
-        Add Info
-      </button>
-    </>
-  );
-}
-
-function SchoolInformation() {
-  return (
-    <>
-      <h2>Educational Experience</h2>
-      <label>
-        School Name
-        <input type="text" />
-      </label>
-      <label>
-        Title Of Study
-        <input type="text" />
-      </label>
-      <label>
-        Duration of Study In Years
-        <input type="number" />
-      </label>
-      <label>
-        Date Finished
-        <input type="date" />
-      </label>
-    </>
-  );
-}
-
-function SchoolInformationEdit() {
-  const [schoolInfoArray, setSchoolInfoArray] = useState([]);
-
-  let tempArray = [];
-
-  let submitNumber = function () {
-    let numberOfSchools = parseInt(prompt("Enter Number Of Schools Attended"));
-    for (let i = 0; i < numberOfSchools; i++) {
-      tempArray.push({
-        id: crypto.randomUUID(),
-        sn: "School Name",
-        tos: "Title Of Study",
-        dos: "Duration Of Study In Years",
-        df: "Date Finished",
-      });
-    }
-
-    setSchoolInfoArray(tempArray);
-  };
-
-  return (
-    <>
-      <h2>{"Educational Experience version Two"}</h2>
-      <button onClick={() => submitNumber()}>
-        How Many Schools Did You Attend?
-      </button>
-      {schoolInfoArray.length > 0
-        ? schoolInfoArray.map((info) => {
-            return (
-              <div className="schools-attended" key={info.id}>
-                <label>
-                  {info.sn}
-                  <input type="text" />
-                </label>
-                <label>
-                  {info.tos}
-                  <input type="text" />
-                </label>
-                <label>
-                  {info.dos}
-                  <input type="number" />
-                </label>
-                <label>
-                  {info.df}
-                  <input type="date" />
-                </label>
-              </div>
-            );
-          })
-        : "Nothing to Display Yet"}
-    </>
-  );
-}
-
-function PracticalExperience() {
-  return (
-    <>
-      <h2>Practical Experience</h2>
-      <label>
-        Company Name
-        <input type="text" />
-      </label>
-      <label>
-        Position Title
-        <input type="text" />
-      </label>
-      <label>
-        Main Responsibilities
-        <textarea></textarea>
-      </label>
-      <label>
-        Worked Since
-        <input type="date" />
-      </label>
-      <label>
-        Worked Until
-        <input type="date" />
-      </label>
-    </>
-  );
-}
-
-function CurriculumVitae({ children }) {
-  return <>{children}</>;
-}
-
 function MainCurriculumVitaeDisplay({ children }) {
   //let generalInformationArray = [];
   const [submitGeneralInformation, setSubmitGeneralInformation] =
@@ -194,6 +14,8 @@ function MainCurriculumVitaeDisplay({ children }) {
   });
 
   const [informationEducation, setInformationEducation] = useState([]);
+
+  const [informationExperience, setInformationExperience] = useState([]);
 
   function GeneralInformation() {
     const [generalInformationTwo, setGeneralInformationTwo] = useState({
@@ -367,7 +189,7 @@ function MainCurriculumVitaeDisplay({ children }) {
 
       setInformationEducation(filteredArray);
 
-      console.log(filteredArray);
+      //console.log(filteredArray);
     };
 
     return (
@@ -445,42 +267,192 @@ function MainCurriculumVitaeDisplay({ children }) {
     );
   }
 
+  function PracticalExperienceEdit() {
+    const [companyInfoArray, setCompanyInfoArray] = useState([]);
+    const [experienceInfoArray, setExperienceInfoArray] = useState([]);
+
+    let tempArray = [];
+    let tempExperienceArray = [];
+
+    let submitCompanies = function () {
+      let numberOfCompanies = parseInt(
+        prompt("Enter Number Of Companies Worked For")
+      );
+      for (let i = 0; i < numberOfCompanies; i++) {
+        tempArray.push({
+          id: crypto.randomUUID(),
+          cn: "Company Name",
+          pt: "Position Title",
+          mr: "Main Responsibilities",
+          ws: "Worked Since",
+          wu: "Worked Until",
+        });
+
+        tempExperienceArray.push({
+          id: "",
+          cn: "",
+          pt: "",
+          mr: "",
+          ws: "",
+          wu: "",
+        });
+      }
+
+      setCompanyInfoArray(tempArray);
+      setExperienceInfoArray(tempExperienceArray);
+    };
+
+    let handleCompanyNameChange = function (e, index) {
+      setExperienceInfoArray([
+        ...experienceInfoArray,
+        (experienceInfoArray[index]["cn"] = e.target.value),
+      ]);
+    };
+
+    let handlePositionTitleChange = function (e, index) {
+      setExperienceInfoArray([
+        ...experienceInfoArray,
+        (experienceInfoArray[index]["pt"] = e.target.value),
+      ]);
+    };
+
+    let handleMainResponsibilitiesChange = function (e, index) {
+      setExperienceInfoArray([
+        ...experienceInfoArray,
+        (experienceInfoArray[index]["mr"] = e.target.value),
+      ]);
+    };
+
+    let handleWorkedSinceChange = function (e, index) {
+      setExperienceInfoArray([
+        ...experienceInfoArray,
+        (experienceInfoArray[index]["ws"] = e.target.value),
+      ]);
+    };
+
+    let handleCWordedUntilChange = function (e, index) {
+      setExperienceInfoArray([
+        ...experienceInfoArray,
+        (experienceInfoArray[index]["wu"] = e.target.value),
+      ]);
+    };
+
+    let submitExperienceInformation = function () {
+      let filteredArray = experienceInfoArray.filter((info) => {
+        return typeof info === "object";
+      });
+
+      setInformationExperience(filteredArray);
+
+      //console.log(filteredArray);
+    };
+
+    return (
+      <>
+        <h2>{"Practical Experience Version Two"}</h2>
+        <button onClick={() => submitCompanies()}>
+          How Many Companies Have You Worked For?
+        </button>
+        {companyInfoArray.length > 0
+          ? companyInfoArray.map((info, index) => {
+              return (
+                <div key={info.id}>
+                  <label>
+                    {info.cn}
+                    <input
+                      type="text"
+                      value={experienceInfoArray[index]["cn"]}
+                      onChange={(event) =>
+                        handleCompanyNameChange(event, index)
+                      }
+                    />
+                  </label>
+                  <label>
+                    {info.pt}
+                    <input
+                      type="text"
+                      value={experienceInfoArray[index]["pt"]}
+                      onChange={(event) =>
+                        handlePositionTitleChange(event, index)
+                      }
+                    />
+                  </label>
+                  <label>
+                    {info.mr}
+                    <textarea
+                      value={experienceInfoArray[index]["mr"]}
+                      onChange={(event) =>
+                        handleMainResponsibilitiesChange(event, index)
+                      }
+                    ></textarea>
+                  </label>
+                  <label>
+                    {info.ws}
+                    <input
+                      type="date"
+                      value={experienceInfoArray[index]["ws"]}
+                      onChange={(event) =>
+                        handleWorkedSinceChange(event, index)
+                      }
+                    />
+                  </label>
+                  <label>
+                    {info.wu}
+                    <input
+                      type="date"
+                      value={experienceInfoArray[index]["wu"]}
+                      onChange={(event) =>
+                        handleCWordedUntilChange(event, index)
+                      }
+                    />
+                  </label>
+                </div>
+              );
+            })
+          : "Nothing To Display Yet"}
+        <button onClick={submitExperienceInformation}>
+          Submit Experience Information
+        </button>
+      </>
+    );
+  }
+
+  function PracticalExperienceRender() {
+    return (
+      <>
+        <h1>Experience Information</h1>
+        {informationExperience.length > 0
+          ? informationExperience.map((info, index) => {
+              return (
+                <div key={index}>
+                  Company Name: {info.cn} Main Responsibilities: {info.mr}{" "}
+                  Position Title: {info.pt} Worked Since: {info.ws} Worked
+                  Until: {info.wu}
+                </div>
+              );
+            })
+          : "No Experience Information To Display Yet"}
+      </>
+    );
+  }
+
   return (
     <>
       {children}
       <GeneralInformation />
-      <GeneralInformationRender />
       <SchoolInformationEdit />
+      <PracticalExperienceEdit />
+      <GeneralInformationRender />
       <SchoolInformationRender />
+      <PracticalExperienceRender />
     </>
   );
 }
 
-// function GeneralInformationRender() {
-//   return (
-//     <>
-//       <h1>General Information</h1>
-//       {generalInformationArray.length > 0
-//         ? generalInformationArray.map((info) => {
-//             <p key={info.id}>
-//               {info.name} {info.phoneNumber} {info.email}
-//             </p>;
-//           })
-//         : "Awaiting Upload"}
-//     </>
-//   );
-// }
-
 export default function CV() {
   return (
     <>
-      <CurriculumVitae>
-        {/* <GeneralInformation />
-        <SchoolInformation />
-        <PracticalExperience />
-        <SchoolInformationEdit /> */}
-      </CurriculumVitae>
-      <MainCurriculumVitaeDisplay></MainCurriculumVitaeDisplay>
+      <MainCurriculumVitaeDisplay />
     </>
   );
 }
