@@ -95,7 +95,7 @@ function MainCurriculumVitaeDisplay({ children }) {
     );
   }
 
-  //General Information function ends here
+  //Ends here
 
   function GeneralInformationRender() {
     let reenderInformation = function () {
@@ -120,39 +120,16 @@ function MainCurriculumVitaeDisplay({ children }) {
     );
   }
 
+  // Ends Here
+
   function SchoolInformationEdit() {
     const [schoolInfoArray, setSchoolInfoArray] = useState([]);
     const [educationInfoArray, setEducationInfoArray] = useState([]);
+    const [schoolsAttended, setSchoolsAttended] = useState(0);
+    const [showSchools, setShowSchools] = useState(false);
 
     let tempInfoArray = [];
     let tempEducationArray = [];
-
-    let submitNumber = function () {
-      let numberOfSchools = parseInt(
-        prompt("Enter Number Of Schools Attended")
-      );
-
-      for (let i = 0; i < numberOfSchools; i++) {
-        tempInfoArray.push({
-          id: crypto.randomUUID(),
-          sn: "School Name",
-          tos: "Title Of Study",
-          dos: "Duration Of Study In Years",
-          df: "Date Finished",
-        });
-
-        tempEducationArray.push({
-          id: "",
-          sn: "",
-          tos: "",
-          dos: "",
-          df: "",
-        });
-      }
-
-      setSchoolInfoArray(tempInfoArray);
-      setEducationInfoArray(tempEducationArray);
-    };
 
     let handleSchoolNameChange = function (e, index) {
       setEducationInfoArray([
@@ -192,14 +169,68 @@ function MainCurriculumVitaeDisplay({ children }) {
       //console.log(filteredArray);
     };
 
+    let schoolsAttendedChange = function (e) {
+      let tempSchoolsAttended = e.target.value;
+      setSchoolsAttended(tempSchoolsAttended);
+    };
+
+    let submitSchoolsAtttendedNumber = function () {
+      console.log(schoolsAttended);
+
+      let schoolsNo = schoolsAttended;
+
+      for (let i = 0; i < schoolsNo; i++) {
+        tempInfoArray.push({
+          id: crypto.randomUUID(),
+          sn: "School Name",
+          tos: "Title Of Study",
+          dos: "Duration Of Study In Years",
+          df: "Date Finished",
+        });
+
+        tempEducationArray.push({
+          id: "",
+          sn: "",
+          tos: "",
+          dos: "",
+          df: "",
+        });
+      }
+
+      setSchoolInfoArray(tempInfoArray);
+      setEducationInfoArray(tempEducationArray);
+      setShowSchools(true);
+    };
+
+    let reEnterSchools = function () {
+      setShowSchools(false);
+    };
+
     return (
       <>
         <h2>{"Educational Experience version Two"}</h2>
-        <button onClick={() => submitNumber()}>
-          How Many Schools Did You Attend?
-        </button>
-        {schoolInfoArray.length > 0
-          ? schoolInfoArray.map((info, index) => {
+
+        {showSchools ? (
+          <button onClick={reEnterSchools}>ReEnter School Number?</button>
+        ) : (
+          <>
+            <label>
+              How Many Schools Did You Attend?
+              <input
+                type="number"
+                value={schoolsAttended}
+                onChange={schoolsAttendedChange}
+              />
+            </label>
+            <button onClick={submitSchoolsAtttendedNumber}>
+              Submit Schools Attended
+            </button>
+          </>
+        )}
+
+        {showSchools ? (
+          schoolInfoArray.length > 0 ? (
+            schoolInfoArray.map((info, index) => {
               return (
                 <div className="schools-attended" key={info.id}>
                   <label>
@@ -243,13 +274,22 @@ function MainCurriculumVitaeDisplay({ children }) {
                 </div>
               );
             })
-          : "Nothing to Display Yet"}
-        <button onClick={() => submitEducationInfo()}>
-          Submit Education Information
-        </button>
+          ) : (
+            <div>You Have Selected Zero Schools</div>
+          )
+        ) : (
+          <div>Enter Number Of Schools</div>
+        )}
+        <div>
+          <button onClick={() => submitEducationInfo()}>
+            Submit Education Information
+          </button>
+        </div>
       </>
     );
   }
+
+  // Ends Here
 
   function SchoolInformationRender() {
     return (
@@ -267,40 +307,16 @@ function MainCurriculumVitaeDisplay({ children }) {
     );
   }
 
+  // Ends Here
+
   function PracticalExperienceEdit() {
     const [companyInfoArray, setCompanyInfoArray] = useState([]);
     const [experienceInfoArray, setExperienceInfoArray] = useState([]);
+    const [companiesNumber, setCompaniesNumber] = useState(0);
+    const [showExperience, setShowExperience] = useState(false);
 
     let tempArray = [];
     let tempExperienceArray = [];
-
-    let submitCompanies = function () {
-      let numberOfCompanies = parseInt(
-        prompt("Enter Number Of Companies Worked For")
-      );
-      for (let i = 0; i < numberOfCompanies; i++) {
-        tempArray.push({
-          id: crypto.randomUUID(),
-          cn: "Company Name",
-          pt: "Position Title",
-          mr: "Main Responsibilities",
-          ws: "Worked Since",
-          wu: "Worked Until",
-        });
-
-        tempExperienceArray.push({
-          id: "",
-          cn: "",
-          pt: "",
-          mr: "",
-          ws: "",
-          wu: "",
-        });
-      }
-
-      setCompanyInfoArray(tempArray);
-      setExperienceInfoArray(tempExperienceArray);
-    };
 
     let handleCompanyNameChange = function (e, index) {
       setExperienceInfoArray([
@@ -347,14 +363,67 @@ function MainCurriculumVitaeDisplay({ children }) {
       //console.log(filteredArray);
     };
 
+    let companiesNumberChange = function (e) {
+      let noCompanies = e.target.value;
+      setCompaniesNumber(noCompanies);
+    };
+
+    let submitCompaniesNumber = function () {
+      let noOfComp = companiesNumber;
+
+      for (let i = 0; i < noOfComp; i++) {
+        tempArray.push({
+          id: crypto.randomUUID(),
+          cn: "Company Name",
+          pt: "Position Title",
+          mr: "Main Responsibilities",
+          ws: "Worked Since",
+          wu: "Worked Until",
+        });
+
+        tempExperienceArray.push({
+          id: "",
+          cn: "",
+          pt: "",
+          mr: "",
+          ws: "",
+          wu: "",
+        });
+      }
+
+      setCompanyInfoArray(tempArray);
+      setExperienceInfoArray(tempExperienceArray);
+      setShowExperience(true);
+    };
+
+    let reEnterCompanies = function () {
+      setShowExperience(false);
+    };
+
     return (
       <>
         <h2>{"Practical Experience Version Two"}</h2>
-        <button onClick={() => submitCompanies()}>
-          How Many Companies Have You Worked For?
-        </button>
-        {companyInfoArray.length > 0
-          ? companyInfoArray.map((info, index) => {
+
+        {showExperience ? (
+          <button onClick={reEnterCompanies}>
+            ReEnter Number Of Companies Worked For?
+          </button>
+        ) : (
+          <>
+            <label>
+              How Many Comapnies Have You Worked For?
+              <input value={companiesNumber} onChange={companiesNumberChange} />
+            </label>
+
+            <button onClick={submitCompaniesNumber}>
+              Submit Number Of Companies Worked For
+            </button>
+          </>
+        )}
+
+        {showExperience ? (
+          companyInfoArray.length > 0 ? (
+            companyInfoArray.map((info, index) => {
               return (
                 <div key={info.id}>
                   <label>
@@ -409,13 +478,22 @@ function MainCurriculumVitaeDisplay({ children }) {
                 </div>
               );
             })
-          : "Nothing To Display Yet"}
-        <button onClick={submitExperienceInformation}>
-          Submit Experience Information
-        </button>
+          ) : (
+            <div>Nothing To Display Yet</div>
+          )
+        ) : (
+          <div>Enter Number Of Companies You Have Worked For</div>
+        )}
+        <div>
+          <button onClick={submitExperienceInformation}>
+            Submit Experience Information
+          </button>
+        </div>
       </>
     );
   }
+
+  //Ends Here
 
   function PracticalExperienceRender() {
     return (
